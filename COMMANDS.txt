@@ -1,0 +1,45 @@
+####Django COMMANDS
+pip install --upgrade distro-info
+pip3 install --upgrade pip==23.2.1
+pip install virtualenv
+virtualenv djangoenv
+source djangoenv/bin/activate
+###
+pip install Django
+###
+django-admin startproject firstproject
+###
+cd firstproject
+###
+python3 manage.py startapp firstapp
+###
+python3 manage.py makemigrations
+###
+python3 manage.py migrate
+### 
+python3 manage.py runserver
+###
+cd firstapp 
+touch urls.py
+####
+####
+Docker COMMANDS
+pip install pipreqs
+pipreqs .
+###
+docker build . -t my-django-app:latest && docker run -e PYTHONUNBUFFERED=1 -p  8000:8000 my-django-app 
+###
+Code Engine COMMANDS
+APP_NAME=my-django-app
+#
+REGISTRY=us.icr.io
+docker tag ${APP_NAME}:latest ${REGISTRY}/${SN_ICR_NAMESPACE}/${APP_NAME}:latest
+docker push ${REGISTRY}/${SN_ICR_NAMESPACE}/${APP_NAME}:latest
+#
+ibmcloud ce application create --name ${APP_NAME} --image ${REGISTRY}/${SN_ICR_NAMESPACE}/${APP_NAME}:latest --registry-secret icr-secret --port 8000
+#
+ibmcloud ce application update --name ${APP_NAME} --image ${REGISTRY}/${SN_ICR_NAMESPACE}/${APP_NAME}:latest --registry-secret icr-secret --port 8000
+#
+ibmcloud ce app logs --application ${APP_NAME}
+#
+ibmcloud ce app events --application ${APP_NAME}
